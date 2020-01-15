@@ -1,0 +1,98 @@
+﻿<!--
+//===============================================================================
+// Microsoft FastTrack for Azure
+// Azure SignalR Service Examples
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@{
+    ViewBag.Title = "Message Monitor";
+}
+
+<h2>Message Monitor</h2>
+<div class="row">
+    <div class="col-md-12">
+        <label for="ddlLocation">Location:</label>
+        <select id="ddlLocation" name="ddlLocation">
+            <option value="">Select a location...</option>
+            <option value="North">North</option>
+            <option value="South">South</option>
+            <option value="East">East</option>
+            <option value="West">West</option>
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h4>Messages Received</h4>
+        <ul id="messagesReceived" name="messagesReceived"></ul>
+    </div>
+</div>
+@section scripts {
+    <!--Reference the SignalR library. -->
+    <script type="text/javascript" src="@Html.Raw("https://cdn.jsdelivr.net/npm/@aspnet/signalr@1.1.0/dist/browser/signalr.min.js")"></script>
+
+    <script>
+        $(function () {
+            var messageManager;
+
+            $('#ddlLocation').change(function () {
+                // If we already have a reference to a hub, re-initialize the hub callback functions
+                if (messageManager) {
+                    // Reset the hub callback function
+                    messageManager.off('displayMessage');
+                    messageManager.on('displayMessage', (message) => { });
+
+                    // Stop the existing connection
+                    messageManager.stop();
+                }
+
+                // Reference the appropriate auto-generated hub proxy based on the selected location
+                var location = $('#ddlLocation').val();
+                switch (location) {
+                    case "North":
+                        messageManager = new signalR.HubConnectionBuilder()
+                            .withUrl("/northmessagehub")
+                            .configureLogging(signalR.LogLevel.Trace)
+                            .build();
+                        break;
+                    case "South":
+                        messageManager = new signalR.HubConnectionBuilder()
+                            .withUrl("/southmessagehub")
+                            .configureLogging(signalR.LogLevel.Trace)
+                            .build();
+                        break;
+                    case "East":
+                        messageManager = new signalR.HubConnectionBuilder()
+                            .withUrl("/eastmessagehub")
+                            .configureLogging(signalR.LogLevel.Trace)
+                            .build();
+                        break;
+                    case "West":
+                        messageManager = new signalR.HubConnectionBuilder()
+                            .withUrl("/westmessagehub")
+                            .configureLogging(signalR.LogLevel.Trace)
+                            .build();
+                        break;
+                    default:
+                        break;
+                }
+
+                // Setup the hub callback functions
+                messageManager.on("displayMessage", (message) => {
+                    // Add the message to the page.
+                    $('#messagesReceived').append('<li><strong>Location:</strong> ' + message.location + ' <strong>MessageId:</strong> ' + message.messageId + '</li>');
+                });
+
+                // Start the connection
+                messageManager.start().then(function () {
+                });
+            });
+        });
+    </script>
+}
