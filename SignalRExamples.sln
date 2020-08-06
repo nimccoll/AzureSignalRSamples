@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageSender", "MessageSender\MessageSender.csproj", "{C34E73EE-1462-4FE3-90B3-47A562BA0EC5}"
 EndProject
@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleHubServerFilter", "Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHubServerFilter", "MultipleHubServerFilter\MultipleHubServerFilter.csproj", "{AAB15208-DEB3-4C5A-B447-1F6A524468D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleHubServerFilter.Core", "MultipleHubServerFilter.Core\MultipleHubServerFilter.Core.csproj", "{0A76995E-F5DC-49CF-A49C-26725260A405}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultipleHubServerFilter.Core", "MultipleHubServerFilter.Core\MultipleHubServerFilter.Core.csproj", "{0A76995E-F5DC-49CF-A49C-26725260A405}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleHubServerFilter.Core", "SingleHubServerFilter.Core\SingleHubServerFilter.Core.csproj", "{697EB660-DF81-4090-8784-6A7335C4E712}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{0A76995E-F5DC-49CF-A49C-26725260A405}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A76995E-F5DC-49CF-A49C-26725260A405}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A76995E-F5DC-49CF-A49C-26725260A405}.Release|Any CPU.Build.0 = Release|Any CPU
+		{697EB660-DF81-4090-8784-6A7335C4E712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{697EB660-DF81-4090-8784-6A7335C4E712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{697EB660-DF81-4090-8784-6A7335C4E712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{697EB660-DF81-4090-8784-6A7335C4E712}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,7 +53,7 @@ Global
 		SolutionGuid = {DB64FED4-C5C2-4813-A2BD-CF66B0795209}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
+		SccNumberOfProjects = 7
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://nimccoll.visualstudio.com/
 		SccLocalPath0 = .
@@ -66,5 +72,8 @@ Global
 		SccProjectUniqueName5 = MultipleHubServerFilter.Core\\MultipleHubServerFilter.Core.csproj
 		SccProjectName5 = MultipleHubServerFilter.Core
 		SccLocalPath5 = MultipleHubServerFilter.Core
+		SccProjectUniqueName6 = SingleHubServerFilter.Core\\SingleHubServerFilter.Core.csproj
+		SccProjectName6 = SingleHubServerFilter.Core
+		SccLocalPath6 = SingleHubServerFilter.Core
 	EndGlobalSection
 EndGlobal

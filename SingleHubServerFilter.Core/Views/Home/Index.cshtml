@@ -1,0 +1,97 @@
+﻿<!--
+//===============================================================================
+// Microsoft FastTrack for Azure
+// Azure SignalR Service Examples
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@{
+    ViewBag.Title = "Message Monitor";
+}
+
+<h2>Message Monitor</h2>
+<div class="row">
+    <div class="col-md-12">
+        <label id="lblStatus" name="lblStatus">Connected</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <label for="ddlLocation">Location:</label>
+        <select id="ddlLocation" name="ddlLocation">
+            <option value="">Select a location...</option>
+            <option value="North">North</option>
+            <option value="South">South</option>
+            <option value="East">East</option>
+            <option value="West">West</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <input type="button" value="Disconnect" name="btnDisconnect" id="btnDisconnect" />
+    </div>
+    <div class="col-md-2">
+        <input type="button" value="Reconnect" name="btnReconnect" id="btnReconnect" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h4>Messages Received</h4>
+        <ul id="messagesReceived" name="messagesReceived"></ul>
+    </div>
+</div>
+@section scripts {
+    <!--Reference the SignalR library. -->
+    <script type="text/javascript" src="@Html.Raw("https://cdn.jsdelivr.net/npm/@aspnet/signalr@1.1.0/dist/browser/signalr.min.js")"></script>
+
+    <script>
+        $(function () {
+            var lastMessageReceivedDateTime = new Date();
+            var messageManager;
+            messageManager = new signalR.HubConnectionBuilder()
+                .withUrl("/messagehub")
+                .configureLogging(signalR.LogLevel.Trace)
+                .build();
+
+            // Setup the hub callback functions
+            messageManager.on("displayMessage", (message) => {
+                // Add the message to the page.
+                $('#messagesReceived').append('<li><strong>Location:</strong> ' + message.location + ' <strong>MessageId:</strong> ' + message.messageId + '</li>');
+                lastMessageReceivedDateTime = new Date();
+            });
+
+            // Start the connection
+            messageManager.start().then(function () {
+                $('#ddlLocation').change(function () {
+                    var location = $('#ddlLocation').val();
+                    messageManager.invoke("Register", location).then(function () { });
+                });
+            });
+
+            $('#btnDisconnect').click(function () {
+                if (messageManager) {
+                    messageManager.stop();
+                }
+                $('#lblStatus').html("Disconnected");
+            })
+
+            $('#btnReconnect').click(function () {
+                messageManager.start().then(function () {
+                    var location = $('#ddlLocation').val();
+                    messageManager.invoke("GetMessages", lastMessageReceivedDateTime, location).then(function (messages) {
+                        messages.forEach(function (message) {
+                            $('#messagesReceived').append('<li><strong>Location:</strong> ' + message.location + ' <strong>MessageId:</strong> ' + message.messageId + '</li>');
+                        });
+                    });
+                    lastMessageReceivedDateTime = new Date();
+                    messageManager.invoke("Register", location).then(function () { });
+                    $('#lblStatus').html("Connected");
+                })
+            })
+        });
+    </script>
+}

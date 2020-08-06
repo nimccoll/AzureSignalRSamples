@@ -44,5 +44,11 @@ namespace MessageSender
             FMultipleHubServerFilterCore form = new FMultipleHubServerFilterCore();
             form.Show();
         }
+
+        private void btnSingleHubServerFilterCore_Click(object sender, EventArgs e)
+        {
+            FSingleHubServerFilterCore form = new FSingleHubServerFilterCore();
+            form.Show();
+        }
     }
 }
